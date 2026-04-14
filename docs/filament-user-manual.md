@@ -179,3 +179,32 @@ Use this as an experimentation path:
 - `docs/dual-admin-architecture.md`
 - `docs/admin-panel-switching.md`
 
+## 11) Git policy: source vs generated Filament files
+
+Use this policy in all projects based on this template.
+
+Commit (source of truth):
+
+- `app/Providers/Filament/AdminPanelProvider.php`
+- `app/Filament/*`
+- `resources/views/filament/*`
+- related config, models, migrations, seeders
+
+Do not commit (generated assets):
+
+- `public/css/filament/*`
+- `public/js/filament/*`
+
+If these generated files were committed before, untrack them once:
+
+```bash
+cd /Users/serhiidymenko/laravel10/cms
+git rm -r --cached public/css/filament public/js/filament
+git add .gitignore
+git commit -m "chore: stop tracking generated filament assets"
+```
+
+Deployment/build note:
+
+- Run `php artisan filament:assets` during build/release so assets are regenerated on the target environment.
+
