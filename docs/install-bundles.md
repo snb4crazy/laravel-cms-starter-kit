@@ -7,6 +7,10 @@ Default policy for this boilerplate:
 - Keep `ADMIN_PANEL=filament` by default.
 - Switch to Inertia later with `scripts/switch-admin-panel.sh inertia`.
 
+Before running bundle installs, configure your DB connection:
+
+- `docs/database-setup.md`
+
 ## MVP bundle
 
 ```bash
@@ -70,4 +74,5 @@ npm run build
 - After each bundle, run tests and check migrations.
 - Pin versions in production templates once you are happy with the stack.
 - For panel switching workflow, see `docs/admin-panel-switching.md`.
+- For local MySQL/PostgreSQL/SQLite setup and seeding steps, see `docs/database-setup.md`.
 

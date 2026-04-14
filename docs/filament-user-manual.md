@@ -16,6 +16,10 @@ The template already includes:
 
 ## 2) First-time setup
 
+Configure your local database first (MySQL/PostgreSQL/SQLite):
+
+- `docs/database-setup.md`
+
 Run this in project root:
 
 ```bash
@@ -171,6 +175,7 @@ Use this as an experimentation path:
 ## 10) Related docs
 
 - `docs/install-bundles.md`
+- `docs/database-setup.md`
 - `docs/dual-admin-architecture.md`
 - `docs/admin-panel-switching.md`
 

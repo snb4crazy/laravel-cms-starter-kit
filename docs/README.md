@@ -7,6 +7,7 @@ This folder contains planning notes for a reusable Laravel CMS starter.
 - [`reusable-libraries.md`](./reusable-libraries.md): third-party packages you can install quickly.
 - [`build-it-yourself.md`](./build-it-yourself.md): features better kept as your own code.
 - [`install-bundles.md`](./install-bundles.md): copy/paste install commands grouped by phase.
+- [`database-setup.md`](./database-setup.md): MySQL-first setup, `.env` mapping, migrations, seeding, and troubleshooting.
 - [`dual-admin-architecture.md`](./dual-admin-architecture.md): Filament-first architecture with Inertia-ready adapter boundaries.
 - [`admin-panel-switching.md`](./admin-panel-switching.md): env-flag strategy and switch script usage.
 - [`decisions/0001-dual-admin-strategy.md`](./decisions/0001-dual-admin-strategy.md): architecture decision record for the dual-admin policy.
