@@ -10,6 +10,7 @@ This folder contains planning notes for a reusable Laravel CMS starter.
 - [`dual-admin-architecture.md`](./dual-admin-architecture.md): Filament-first architecture with Inertia-ready adapter boundaries.
 - [`admin-panel-switching.md`](./admin-panel-switching.md): env-flag strategy and switch script usage.
 - [`decisions/0001-dual-admin-strategy.md`](./decisions/0001-dual-admin-strategy.md): architecture decision record for the dual-admin policy.
+- [`filament-user-manual.md`](./filament-user-manual.md): step-by-step guide to run, login, and experiment with the Filament CMS stub.
 
 ## Suggested rollout
 
