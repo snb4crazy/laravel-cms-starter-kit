@@ -111,20 +111,7 @@ class PostResource extends Resource
 
                 ]),
 
-            // ----  Cover image  -------------------------------------------------
-            Section::make('Cover Image')
-                ->collapsible()
-                ->schema([
-                    SpatieMediaLibraryFileUpload::make('cover')
-                        ->label('Cover image')
-                        ->collection('cover')
-                        ->image()
-                        ->imageEditor()
-                        ->maxSize(5120)
-                        ->disk('public')
-                        ->responsiveImages()
-                        ->helperText('Recommended size: 1200 × 630 px.'),
-                ]),
+            ...static::getMediaSections(),
 
             // ----  Publishing settings  -----------------------------------------
             Section::make('Publishing')
@@ -169,6 +156,51 @@ class PostResource extends Resource
                 ]),
 
         ]);
+    }
+
+    protected static function getMediaSections(): array
+    {
+        $sections = [
+            Section::make('Cover Image')
+                ->collapsible()
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('cover')
+                        ->label('Cover image')
+                        ->collection('cover')
+                        ->image()
+                        ->imageEditor()
+                        ->maxSize(5120)
+                        ->disk(static::getMediaDisk())
+                        ->responsiveImages()
+                        ->helperText('Recommended size: 1200 × 630 px.'),
+                ]),
+        ];
+
+        if (config('cms.features.media.post_gallery', false)) {
+            $sections[] = Section::make('Gallery')
+                ->description('Optional multi-image collection for projects that need post galleries.')
+                ->collapsible()
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('gallery')
+                        ->label('Gallery images')
+                        ->collection('gallery')
+                        ->multiple()
+                        ->reorderable()
+                        ->appendFiles()
+                        ->image()
+                        ->imageEditor()
+                        ->maxSize(5120)
+                        ->disk(static::getMediaDisk())
+                        ->helperText('Disabled by default in the boilerplate. Enable only when a project needs it.'),
+                ]);
+        }
+
+        return $sections;
+    }
+
+    protected static function getMediaDisk(): string
+    {
+        return (string) config('media-library.disk_name', 'public');
     }
 
     // ---------------------------------------------------------------------------
