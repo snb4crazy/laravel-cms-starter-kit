@@ -8,7 +8,7 @@ The template already includes:
 
 - Filament admin panel at `/admin`
 - `Post` and `Category` resources with CRUD
-- dashboard widgets (`PostStatsWidget`, `LatestPostsWidget`)
+- showcase dashboard widgets (stats, content health, trend chart, recent posts, activity, quick links)
 - custom `Site Settings` page
 - demo data seeder with admin user + categories + posts
 - permission package (`spatie/laravel-permission`) with `admin` / `editor` roles
@@ -50,10 +50,49 @@ Route: `/admin`
 
 You get:
 
-- post count cards (`Total`, `Published`, `Drafts`)
-- latest posts table
+- built-in account panel (`AccountWidget`)
+- built-in Filament info block (`FilamentInfoWidget`)
+- `PostStatsWidget`: main post KPIs (`Total`, `Published`, `Drafts`, `Archived`)
+- `ContentHealthWidget`: uncategorized posts, featured posts, empty categories, stale content
+- `PublishingTrendChartWidget`: chart of content creation over time with range filters
+- `LatestPostsWidget`: latest content table with category + status
+- `CategoryOverviewWidget`: category table with post counts and publish snapshot
+- `RecentActivityWidget`: recent model activity from `activity_log`
+- `QuickLinksWidget`: shortcut cards for demo flows and useful entry points
 
-This is your quick project health overview.
+This is a Filament showcase dashboard meant to demonstrate multiple widget types at once.
+
+### How to extend, update, or remove dashboard widgets
+
+Main registration file:
+
+- `app/Providers/Filament/AdminPanelProvider.php`
+
+Current dashboard widget files:
+
+- `app/Filament/Widgets/PostStatsWidget.php`
+- `app/Filament/Widgets/ContentHealthWidget.php`
+- `app/Filament/Widgets/PublishingTrendChartWidget.php`
+- `app/Filament/Widgets/LatestPostsWidget.php`
+- `app/Filament/Widgets/CategoryOverviewWidget.php`
+- `app/Filament/Widgets/RecentActivityWidget.php`
+- `app/Filament/Widgets/QuickLinksWidget.php`
+- `resources/views/filament/widgets/quick-links-widget.blade.php`
+
+How to customize:
+
+1. **Reorder widgets**: move class names in `AdminPanelProvider::panel()->widgets([...])` and/or change each widget's `protected static ?int $sort` value.
+2. **Remove widgets**: delete the widget class from the `->widgets([...])` array.
+3. **Change queries**: edit the Eloquent queries inside each widget class.
+4. **Change layout width**: update `$columnSpan` in the widget class.
+5. **Change labels, icons, chart filters, descriptions**: edit the widget class methods directly.
+6. **Add a new widget**: create a new class in `app/Filament/Widgets/` and register it in `AdminPanelProvider`.
+
+Recommended demo tweaks:
+
+- swap `RecentActivityWidget` to your own audit/event model later if needed
+- replace `QuickLinksWidget` shortcuts with project-specific actions
+- turn off `FilamentInfoWidget` once the project moves from demo to production
 
 ## Categories
 
@@ -91,15 +130,17 @@ Suggested workflow:
 
 Route: `/admin/site-settings`
 
-Currently this is a working **stub page**:
+Current behavior:
 
 - form UI is functional
-- save action shows confirmation notification
-- persistence is intentionally left for your project-specific implementation
+- settings persist in cache for demo purposes
+- `maintenance_mode` affects frontend routes wrapped in the maintenance middleware
+- admins can still access the panel while maintenance mode is enabled
 
 Recommended next step:
 
-- connect this page to a settings store (for example `spatie/laravel-settings`)
+- replace cache-based persistence with a real settings store (for example `spatie/laravel-settings`)
+- apply the maintenance middleware to any additional public routes you add later
 
 ## 5) Architecture notes (important for extension)
 
@@ -114,6 +155,7 @@ Main extension files:
 - widgets: `app/Filament/Widgets/*`
 - custom pages: `app/Filament/Pages/*`
 - page view: `resources/views/filament/pages/site-settings.blade.php`
+- custom widget view: `resources/views/filament/widgets/quick-links-widget.blade.php`
 
 ## 6) How to add new CMS entity (quick pattern)
 
@@ -169,8 +211,9 @@ Use this as an experimentation path:
 2. Create 10+ posts with mixed statuses
 3. Test filtering and status tabs
 4. Edit `PostResource` to add one new column + filter
-5. Wire `SiteSettings` persistence to a real settings backend
-6. Restrict panel to `admin` only
+5. Replace cached `SiteSettings` values with a real settings backend
+6. Add or remove one dashboard widget to fit a real project
+7. Restrict panel to `admin` only
 
 ## 10) Related docs
 
