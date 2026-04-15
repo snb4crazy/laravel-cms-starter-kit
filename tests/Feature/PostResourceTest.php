@@ -9,6 +9,7 @@ use App\Filament\Resources\PostResource\Pages\ListPosts;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
@@ -332,6 +333,43 @@ class PostResourceTest extends TestCase
             ->assertFormFieldExists('title')
             ->assertFormFieldExists('slug')
             ->assertFormFieldExists('status');
+    }
+
+    public function test_cover_field_uses_the_configured_media_disk(): void
+    {
+        config()->set('media-library.disk_name', 's3');
+
+        Livewire::actingAs($this->adminUser())
+            ->test(CreatePost::class)
+            ->assertFormFieldExists('cover', fn ($field): bool =>
+                $field instanceof SpatieMediaLibraryFileUpload
+                && $field->getCollection() === 'cover'
+                && $field->getDiskName() === 's3'
+            );
+    }
+
+    public function test_gallery_field_is_hidden_by_default(): void
+    {
+        config()->set('cms.features.media.post_gallery', false);
+
+        Livewire::actingAs($this->adminUser())
+            ->test(CreatePost::class)
+            ->assertFormFieldDoesNotExist('gallery');
+    }
+
+    public function test_gallery_field_can_be_enabled_per_project(): void
+    {
+        config()->set('cms.features.media.post_gallery', true);
+        config()->set('media-library.disk_name', 'public');
+
+        Livewire::actingAs($this->adminUser())
+            ->test(CreatePost::class)
+            ->assertFormFieldExists('gallery', fn ($field): bool =>
+                $field instanceof SpatieMediaLibraryFileUpload
+                && $field->getCollection() === 'gallery'
+                && $field->isMultiple()
+                && $field->getDiskName() === 'public'
+            );
     }
 
     public function test_can_create_a_post_with_valid_data(): void
