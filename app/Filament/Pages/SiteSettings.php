@@ -10,6 +10,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Stub Filament Custom Page: Site Settings
@@ -31,6 +32,8 @@ class SiteSettings extends Page implements HasForms
 {
     use InteractsWithForms;
 
+    private const CACHE_KEY = 'cms.settings';
+
     protected static ?string $navigationLabel = 'Site Settings';
     protected static ?string $title           = 'Site Settings';
     protected static ?int    $navigationSort  = 10;
@@ -45,10 +48,12 @@ class SiteSettings extends Page implements HasForms
 
     public function mount(): void
     {
+        $settings = Cache::get(self::CACHE_KEY, []);
+
         $this->form->fill([
-            'site_name'        => config('app.name'),
-            'site_tagline'     => '',
-            'maintenance_mode' => false,
+            'site_name'        => $settings['site_name'] ?? config('app.name'),
+            'site_tagline'     => $settings['site_tagline'] ?? '',
+            'maintenance_mode' => (bool) ($settings['maintenance_mode'] ?? false),
         ]);
     }
 
@@ -78,8 +83,14 @@ class SiteSettings extends Page implements HasForms
     {
         $state = $this->form->getState();
 
-        // In production: persist $state to your settings store.
-        // E.g. Settings::set('site_name', $state['site_name']);
+        Cache::forever(self::CACHE_KEY, [
+            'site_name' => (string) ($state['site_name'] ?? config('app.name')),
+            'site_tagline' => (string) ($state['site_tagline'] ?? ''),
+            'maintenance_mode' => (bool) ($state['maintenance_mode'] ?? false),
+        ]);
+
+        // Ensure the form reflects exactly what was persisted.
+        $this->mount();
 
         Notification::make()
             ->title('Settings saved!')
