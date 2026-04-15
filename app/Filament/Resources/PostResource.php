@@ -11,9 +11,9 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -23,7 +23,7 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -38,7 +38,7 @@ use Illuminate\Support\Str;
  *
  *  Form builder (Schema API)
  *   - TextInput, Textarea, MarkdownEditor, Select, Toggle, DateTimePicker
- *   - FileUpload (cover image via disk)
+ *   - SpatieMediaLibraryFileUpload (cover image via media library)
  *   - Section + Grid (from Filament\Schemas\Components in v5)
  *   - Live slug generation from title
  *
@@ -111,19 +111,7 @@ class PostResource extends Resource
 
                 ]),
 
-            // ----  Cover image  -------------------------------------------------
-            Section::make('Cover Image')
-                ->collapsible()
-                ->schema([
-                    FileUpload::make('cover')
-                        ->label('Cover image')
-                        ->image()
-                        ->imageEditor()
-                        ->maxSize(5120)
-                        ->disk('public')
-                        ->directory('posts/covers')
-                        ->helperText('Recommended size: 1200 × 630 px.'),
-                ]),
+            ...static::getMediaSections(),
 
             // ----  Publishing settings  -----------------------------------------
             Section::make('Publishing')
@@ -170,6 +158,51 @@ class PostResource extends Resource
         ]);
     }
 
+    protected static function getMediaSections(): array
+    {
+        $sections = [
+            Section::make('Cover Image')
+                ->collapsible()
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('cover')
+                        ->label('Cover image')
+                        ->collection('cover')
+                        ->image()
+                        ->imageEditor()
+                        ->maxSize(5120)
+                        ->disk(static::getMediaDisk())
+                        ->responsiveImages()
+                        ->helperText('Recommended size: 1200 × 630 px.'),
+                ]),
+        ];
+
+        if (config('cms.features.media.post_gallery', false)) {
+            $sections[] = Section::make('Gallery')
+                ->description('Optional multi-image collection for projects that need post galleries.')
+                ->collapsible()
+                ->schema([
+                    SpatieMediaLibraryFileUpload::make('gallery')
+                        ->label('Gallery images')
+                        ->collection('gallery')
+                        ->multiple()
+                        ->reorderable()
+                        ->appendFiles()
+                        ->image()
+                        ->imageEditor()
+                        ->maxSize(5120)
+                        ->disk(static::getMediaDisk())
+                        ->helperText('Disabled by default in the boilerplate. Enable only when a project needs it.'),
+                ]);
+        }
+
+        return $sections;
+    }
+
+    protected static function getMediaDisk(): string
+    {
+        return (string) config('media-library.disk_name', 'public');
+    }
+
     // ---------------------------------------------------------------------------
     // Table schema
     // ---------------------------------------------------------------------------
@@ -179,8 +212,9 @@ class PostResource extends Resource
         return $table
             ->columns([
 
-                ImageColumn::make('cover')
+                SpatieMediaLibraryImageColumn::make('cover')
                     ->label('')
+                    ->collection('cover')
                     ->circular(false)
                     ->size(48)
                     ->defaultImageUrl(asset('favicon.ico'))

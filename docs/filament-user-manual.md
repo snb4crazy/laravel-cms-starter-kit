@@ -13,6 +13,7 @@ The template already includes:
 - demo data seeder with admin user + categories + posts
 - permission package (`spatie/laravel-permission`) with `admin` / `editor` roles
 - media, activity log, and slugs packages installed
+- post cover upload wired to Spatie Media Library (`cover` collection)
 
 ## 2) First-time setup
 
@@ -113,6 +114,7 @@ Available actions:
 
 - create/edit/delete posts
 - fields: title, slug, excerpt, content, status, publish date, featured toggle
+- cover image upload via Media Library (`cover` collection)
 - assign category
 - list filters (status, category, featured, published today)
 - quick custom action: `Publish`
