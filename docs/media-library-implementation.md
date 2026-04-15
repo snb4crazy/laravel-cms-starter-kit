@@ -23,7 +23,7 @@ The project already includes a **working first integration** of Spatie Media Lib
 - `App\Models\Post` implements `HasMedia` and uses `InteractsWithMedia`.
 - The `Post` model defines two media collections:
   - `cover` → single-file collection
-  - `gallery` → multi-file collection (scaffolded, not exposed in the admin yet)
+  - `gallery` → multi-file collection with admin UI available only when `CMS_POST_GALLERY_ENABLED` is enabled
 - The `Post` model defines two image conversions:
   - `thumb` (`400x300`)
   - `banner` (`1200x630`)
