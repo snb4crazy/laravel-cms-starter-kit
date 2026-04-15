@@ -12,6 +12,8 @@ This folder contains planning notes for a reusable Laravel CMS starter.
 - [`admin-panel-switching.md`](./admin-panel-switching.md): env-flag strategy and switch script usage.
 - [`decisions/0001-dual-admin-strategy.md`](./decisions/0001-dual-admin-strategy.md): architecture decision record for the dual-admin policy.
 - [`filament-user-manual.md`](./filament-user-manual.md): step-by-step guide to run, login, and experiment with the Filament CMS stub.
+- [`media-library-implementation.md`](./media-library-implementation.md): detailed status, architecture, disk strategy, TODOs, and roadmap for the current media-library integration.
+- [`media-library-handoff.md`](./media-library-handoff.md): short operational summary of media defaults, feature flags, tests, and next steps.
 
 ## Suggested rollout
 
