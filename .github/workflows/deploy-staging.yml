@@ -62,8 +62,10 @@ jobs:
             php artisan queue:restart || true
 
       - name: Smoke check
-        if: ${{ secrets.STAGING_HEALTHCHECK_URL != '' }}
+        env:
+          STAGING_HEALTHCHECK_URL: ${{ secrets.STAGING_HEALTHCHECK_URL }}
+        if: ${{ env.STAGING_HEALTHCHECK_URL != '' }}
         run: |
-          curl --fail --silent --show-error --location --retry 5 --retry-delay 5 "${{ secrets.STAGING_HEALTHCHECK_URL }}" > /dev/null
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 5 "$STAGING_HEALTHCHECK_URL" > /dev/null
 
 
