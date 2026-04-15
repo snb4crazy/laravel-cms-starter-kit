@@ -2,9 +2,14 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\CategoryOverviewWidget;
+use App\Filament\Widgets\ContentHealthWidget;
 use App\Filament\Pages\SiteSettings;
 use App\Filament\Widgets\LatestPostsWidget;
 use App\Filament\Widgets\PostStatsWidget;
+use App\Filament\Widgets\PublishingTrendChartWidget;
+use App\Filament\Widgets\QuickLinksWidget;
+use App\Filament\Widgets\RecentActivityWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -96,7 +101,12 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
                 PostStatsWidget::class,
+                ContentHealthWidget::class,
+                PublishingTrendChartWidget::class,
                 LatestPostsWidget::class,
+                CategoryOverviewWidget::class,
+                RecentActivityWidget::class,
+                QuickLinksWidget::class,
             ])
 
             // ------------------------------------------------------------------
