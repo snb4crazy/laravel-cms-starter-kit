@@ -1,0 +1,71 @@
+# Install Bundles (Copy/Paste)
+
+These commands are optional starter bundles for your CMS template.
+
+Default policy for this boilerplate:
+- Install Filament first.
+- Keep `ADMIN_PANEL=filament` by default.
+- Switch to Inertia later with `scripts/switch-admin-panel.sh inertia`.
+
+Before running bundle installs, configure your DB connection:
+
+- `docs/database-setup.md`
+
+## MVP bundle
+
+```bash
+composer require filament/filament spatie/laravel-permission spatie/laravel-medialibrary spatie/laravel-activitylog spatie/laravel-sluggable
+php artisan migrate
+```
+
+## Quality bundle
+
+```bash
+composer require --dev phpstan/phpstan larastan/larastan
+```
+
+## Search bundle (pick one engine)
+
+### Scout + Meilisearch
+
+```bash
+composer require laravel/scout meilisearch/meilisearch-php
+```
+
+### Scout + Typesense
+
+```bash
+composer require laravel/scout typesense/typesense-php
+```
+
+## SEO + sitemap bundle
+
+```bash
+composer require ralphjsmit/laravel-seo spatie/laravel-sitemap
+```
+
+## Ops bundle
+
+```bash
+composer require spatie/laravel-backup spatie/laravel-health
+```
+
+## Optional Inertia UI foundation bundle
+
+Install this only when a project needs custom admin UX.
+
+```bash
+composer require laravel/breeze --dev
+php artisan breeze:install vue
+npm install
+npm run build
+```
+
+## Notes
+
+- Run installs in small batches to keep troubleshooting easy.
+- After each bundle, run tests and check migrations.
+- Pin versions in production templates once you are happy with the stack.
+- For panel switching workflow, see `docs/admin-panel-switching.md`.
+- For local MySQL/PostgreSQL/SQLite setup and seeding steps, see `docs/database-setup.md`.
+
