@@ -164,6 +164,85 @@ As projects mature, consider:
 4. Add migration safety checks for destructive changes.
 5. Add notifications (Slack/Teams/Telegram) for deploy status.
 
+## Future extension ideas
+
+These are intentionally optional. They are good next steps once the base CI/CD setup is stable and the project’s hosting/storage strategy becomes clearer.
+
+### CI coverage upgrades
+
+- Add **Larastan / PHPStan** and fail the pipeline on new static analysis issues.
+- Add a **database matrix** if you want parity beyond SQLite in CI, for example:
+  - SQLite for fast PR feedback
+  - MySQL or MariaDB for production-like verification
+- Add **browser-level admin smoke tests** later with Laravel Dusk or another E2E tool if Filament workflows become more complex.
+- Add **migration safety checks** that flag destructive schema changes for manual review.
+- Add **coverage reporting** if the team wants test coverage thresholds.
+
+### Media and disk-related test ideas
+
+This project already has media support and disk-aware behavior, so CI can grow into storage-focused validation later.
+
+Optional future checks:
+
+- Run media tests against multiple disk strategies once a policy is chosen:
+  - `public`
+  - `s3`
+  - split-disk strategies for originals vs conversions
+- Add a dedicated test job that overrides `MEDIA_DISK` and verifies uploads still attach correctly.
+- Add assertions that `storage:link` assumptions remain valid for local/public deployments.
+- Add tests for media conversions and ensure expected conversions are generated for uploaded files.
+- Add queue-related tests if conversion generation is moved off sync execution.
+- Add future checks for signed/temporary URLs if private media is introduced.
+
+### Optional deployment tests for disks/storage
+
+If this app later adopts S3 or more advanced media storage, consider adding deploy-time smoke checks such as:
+
+- verify the configured disk is reachable before deployment finishes
+- verify expected bucket/path/prefix settings exist
+- verify one known asset URL resolves after deploy
+- verify queue workers can process conversion jobs in the target environment
+
+These should stay optional until the project has a formal storage policy.
+
+### Deployment hardening ideas
+
+- Promote a **single tested artifact** from CI to staging and production instead of rebuilding on each server.
+- Add **pre-deploy backup hooks** for database and critical uploads.
+- Add **post-deploy rollback hooks** when health checks fail.
+- Add **release tagging** so every production deploy maps to a clear Git ref.
+- Add **maintenance-mode strategies** for migrations that are not backward-compatible.
+- Add separate workflows for:
+  - application deploys
+  - database migrations
+  - one-off maintenance operations
+
+### Operational visibility ideas
+
+- Post workflow results to Slack, Teams, or Telegram.
+- Add deploy annotations with commit SHA, branch/tag, and actor.
+- Add a health endpoint specifically for CI/CD smoke checks.
+- Add scheduled jobs for:
+  - nightly full test runs
+  - weekly security scans
+  - backup restore drills in non-production
+- Generate an SBOM if the project needs stronger supply-chain visibility.
+
+### Recommended growth path
+
+If you want to extend this setup gradually, a practical order is:
+
+1. add Larastan
+2. add MySQL/MariaDB CI coverage alongside SQLite
+3. add media/disk-specific CI scenarios once storage policy is finalized
+4. move deploys to artifact promotion
+5. add rollback + health-gated deploy automation
+
+### Related docs
+
+- `docs/media-library-implementation.md`
+- `docs/media-library-handoff.md`
+
 ## Local command parity
 
 These commands mirror what CI enforces:
