@@ -18,21 +18,18 @@ Use the script in `scripts/switch-admin-panel.sh`.
 ### Dry run (safe preview)
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 scripts/switch-admin-panel.sh inertia --dry-run
 ```
 
 ### Real switch to Filament
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 scripts/switch-admin-panel.sh filament
 ```
 
 ### Real switch to Inertia
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 scripts/switch-admin-panel.sh inertia
 ```
 
@@ -58,7 +55,6 @@ Reasoning:
 - If routes still look wrong, run:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan optimize:clear
 ```
 

@@ -14,7 +14,6 @@ Before running bundle installs, configure your DB connection:
 ## MVP bundle
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require filament/filament spatie/laravel-permission spatie/laravel-medialibrary spatie/laravel-activitylog spatie/laravel-sluggable
 php artisan migrate
 ```
@@ -22,7 +21,6 @@ php artisan migrate
 ## Quality bundle
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require --dev phpstan/phpstan larastan/larastan
 ```
 
@@ -31,28 +29,24 @@ composer require --dev phpstan/phpstan larastan/larastan
 ### Scout + Meilisearch
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require laravel/scout meilisearch/meilisearch-php
 ```
 
 ### Scout + Typesense
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require laravel/scout typesense/typesense-php
 ```
 
 ## SEO + sitemap bundle
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require ralphjsmit/laravel-seo spatie/laravel-sitemap
 ```
 
 ## Ops bundle
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require spatie/laravel-backup spatie/laravel-health
 ```
 
@@ -61,7 +55,6 @@ composer require spatie/laravel-backup spatie/laravel-health
 Install this only when a project needs custom admin UX.
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 composer require laravel/breeze --dev
 php artisan breeze:install vue
 npm install
