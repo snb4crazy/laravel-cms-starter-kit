@@ -1,0 +1,79 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Git ref to deploy (tag recommended, branch allowed)"
+        required: true
+        default: "main"
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required production secrets
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+        run: |
+          test -n "$PRODUCTION_HOST"
+          test -n "$PRODUCTION_USER"
+          test -n "$PRODUCTION_SSH_KEY"
+          test -n "$PRODUCTION_PATH"
+
+      - name: Deploy application over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          DEPLOY_REF: ${{ inputs.ref }}
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USER }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          envs: DEPLOY_REF
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            cd "${{ secrets.PRODUCTION_PATH }}"
+            git fetch --all --tags
+            git checkout "$DEPLOY_REF"
+            git pull --ff-only origin "$DEPLOY_REF" || true
+
+            if [ -n "${{ secrets.PRODUCTION_BACKUP_COMMAND }}" ]; then
+              eval "${{ secrets.PRODUCTION_BACKUP_COMMAND }}"
+            fi
+
+            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            npm ci
+            npm run build
+
+            php artisan migrate --force
+            php artisan optimize:clear
+            php artisan optimize
+
+            php artisan storage:link || true
+            php artisan queue:restart || true
+
+      - name: Smoke check
+        if: ${{ secrets.PRODUCTION_HEALTHCHECK_URL != '' }}
+        run: |
+          curl --fail --silent --show-error --location --retry 5 --retry-delay 5 "${{ secrets.PRODUCTION_HEALTHCHECK_URL }}" > /dev/null
+
+
