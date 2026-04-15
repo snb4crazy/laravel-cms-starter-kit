@@ -23,7 +23,6 @@ Configure your local database first (MySQL/PostgreSQL/SQLite):
 Run this in project root:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan migrate:fresh --seed
 php artisan serve
 ```
@@ -192,14 +191,12 @@ For production hardening:
 ## Routes or config look stale
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan optimize:clear
 ```
 
 ## Files/media not visible
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan storage:link
 ```
 
@@ -241,7 +238,6 @@ Do not commit (generated assets):
 If these generated files were committed before, untrack them once:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 git rm -r --cached public/css/filament public/js/filament
 git add .gitignore
 git commit -m "chore: stop tracking generated filament assets"

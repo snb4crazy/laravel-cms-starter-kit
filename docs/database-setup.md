@@ -25,7 +25,6 @@ DB_PASSWORD=filament
 If you are changing DB values after first boot, clear cached config:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan optimize:clear
 ```
 
@@ -58,7 +57,6 @@ Run one of these flows:
 - First install or keep existing data structure:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan migrate
 php artisan db:seed
 ```
@@ -66,7 +64,6 @@ php artisan db:seed
 - Reset DB and reseed from scratch:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 php artisan migrate:fresh --seed
 ```
 
@@ -120,7 +117,6 @@ GRANT ALL PRIVILEGES ON DATABASE cms_filament TO filament;
 Create the file and use:
 
 ```bash
-cd /Users/serhiidymenko/laravel10/cms
 touch database/database.sqlite
 ```
 
