@@ -32,12 +32,10 @@ class PostStatsWidget extends BaseWidget
 
         $recentTotals = collect(range(6, 0))
             ->map(fn (int $daysAgo): int => Post::whereDate('created_at', now()->subDays($daysAgo))->count())
-            ->push(Post::whereDate('created_at', today())->count())
             ->all();
 
         $recentPublished = collect(range(6, 0))
             ->map(fn (int $daysAgo): int => Post::where('status', 'published')->whereDate('created_at', now()->subDays($daysAgo))->count())
-            ->push(Post::where('status', 'published')->whereDate('created_at', today())->count())
             ->all();
 
         return [

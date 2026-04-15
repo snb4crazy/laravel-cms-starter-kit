@@ -23,7 +23,7 @@ The project already includes a **working first integration** of Spatie Media Lib
 - `App\Models\Post` implements `HasMedia` and uses `InteractsWithMedia`.
 - The `Post` model defines two media collections:
   - `cover` → single-file collection
-  - `gallery` → multi-file collection (scaffolded, not exposed in the admin yet)
+  - `gallery` → multi-file collection with admin UI available only when `CMS_POST_GALLERY_ENABLED` is enabled
 - The `Post` model defines two image conversions:
   - `thumb` (`400x300`)
   - `banner` (`1200x630`)
@@ -865,15 +865,6 @@ If this CMS will ingest legacy content, add support for:
 - metadata normalization
 - collection mapping rules
 
-### G. Deferred candidates (agreed for later)
-
-These are intentionally deferred for the boilerplate now, but already identified as strong next-phase ideas:
-
-- Add `alt` / `caption` / `credit` metadata as another opt-in layer.
-- Add a tiny dedicated media settings section in docs (quick ops/config reference).
-- Make admin thumbnails explicitly use the `thumb` conversion for predictable performance.
-- Prepare an S3-ready media policy document without enabling S3 by default.
-
 ---
 
 ## 17) Recommended next implementation steps
@@ -969,8 +960,8 @@ Current media-related implementation is primarily located in:
 If you only remember five things, remember these:
 
 1. Media is currently implemented only for `Post`.
-2. `cover` works now; `gallery` is available as an opt-in feature and is disabled by default.
+2. `cover` works now; `gallery` is scaffolded but not exposed.
 3. Uploads currently go to the `public` disk.
-4. `config/media-library.php` is committed with conservative, environment-driven defaults.
-5. The next best improvements are explicit thumbnail conversion usage, metadata ergonomics, and a clear production disk policy.
+4. There is no committed media-library config yet.
+5. The next best improvements are config publication, media tests, and a clear disk strategy.
 

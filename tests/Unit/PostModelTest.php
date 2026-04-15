@@ -55,7 +55,7 @@ class PostModelTest extends TestCase
 
     public function test_slug_is_auto_generated_from_title(): void
     {
-        $post = Post::factory()->create(['title' => 'Hello World', 'slug' => 'hello-world']);
+        $post = Post::factory()->create(['title' => 'Hello World']);
 
         $this->assertSame('hello-world', $post->slug);
     }
