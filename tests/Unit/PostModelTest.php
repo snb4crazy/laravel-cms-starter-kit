@@ -5,6 +5,8 @@ namespace Tests\Unit;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class PostModelTest extends TestCase
@@ -76,6 +78,78 @@ class PostModelTest extends TestCase
         $post = Post::factory()->create(['category_id' => null]);
 
         $this->assertNull($post->category);
+    }
+
+    // -------------------------------------------------------------------------
+    // Media library
+    // -------------------------------------------------------------------------
+
+    public function test_cover_media_is_attached_and_stored_on_public_disk(): void
+    {
+        Storage::fake('public');
+
+        $post = Post::factory()->create();
+
+        $media = $post
+            ->addMedia(UploadedFile::fake()->image('cover.jpg', 1200, 630))
+            ->toMediaCollection('cover', 'public');
+
+        $this->assertCount(1, $post->fresh()->getMedia('cover'));
+        $this->assertSame('public', $media->disk);
+
+        Storage::disk('public')->assertExists($media->getPathRelativeToRoot());
+
+        $this->assertDatabaseHas('media', [
+            'id' => $media->id,
+            'model_type' => Post::class,
+            'model_id' => $post->id,
+            'collection_name' => 'cover',
+            'disk' => 'public',
+        ]);
+    }
+
+    public function test_cover_collection_replaces_the_previous_file(): void
+    {
+        Storage::fake('public');
+
+        $post = Post::factory()->create();
+
+        $firstMedia = $post
+            ->addMedia(UploadedFile::fake()->image('first-cover.jpg', 1200, 630))
+            ->toMediaCollection('cover', 'public');
+
+        $firstPath = $firstMedia->getPathRelativeToRoot();
+
+        $secondMedia = $post
+            ->addMedia(UploadedFile::fake()->image('second-cover.jpg', 1200, 630))
+            ->toMediaCollection('cover', 'public');
+
+        $post = $post->fresh();
+
+        $this->assertCount(1, $post->getMedia('cover'));
+        $this->assertSame($secondMedia->id, $post->getFirstMedia('cover')?->id);
+
+        Storage::disk('public')->assertMissing($firstPath);
+        Storage::disk('public')->assertExists($secondMedia->getPathRelativeToRoot());
+
+        $this->assertDatabaseMissing('media', ['id' => $firstMedia->id]);
+    }
+
+    public function test_gallery_collection_allows_multiple_media_items(): void
+    {
+        Storage::fake('public');
+
+        $post = Post::factory()->create();
+
+        $post
+            ->addMedia(UploadedFile::fake()->image('gallery-1.jpg', 1200, 630))
+            ->toMediaCollection('gallery', 'public');
+
+        $post
+            ->addMedia(UploadedFile::fake()->image('gallery-2.jpg', 1200, 630))
+            ->toMediaCollection('gallery', 'public');
+
+        $this->assertCount(2, $post->fresh()->getMedia('gallery'));
     }
 
     // -------------------------------------------------------------------------
