@@ -13,7 +13,9 @@ class FrontMaintenanceMode
 
     public function handle(Request $request, Closure $next): Response
     {
-        $maintenanceModeEnabled = (bool) (Cache::get(self::CACHE_KEY)['maintenance_mode'] ?? false);
+        $settings = Cache::get(self::CACHE_KEY, []);
+        $settings = is_array($settings) ? $settings : [];
+        $maintenanceModeEnabled = (bool) ($settings['maintenance_mode'] ?? false);
 
         if (! $maintenanceModeEnabled) {
             return $next($request);
