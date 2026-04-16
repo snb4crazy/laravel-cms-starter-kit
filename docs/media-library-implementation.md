@@ -962,6 +962,6 @@ If you only remember five things, remember these:
 1. Media is currently implemented only for `Post`.
 2. `cover` works now; `gallery` is scaffolded but not exposed.
 3. Uploads currently go to the `public` disk.
-4. A committed media-library config now exists at `config/media-library.php`.
-5. The next best improvements are refining that config as needed, adding media tests, and defining a clear disk strategy.
+4. There is no committed media-library config yet.
+5. The next best improvements are config publication, media tests, and a clear disk strategy.
 

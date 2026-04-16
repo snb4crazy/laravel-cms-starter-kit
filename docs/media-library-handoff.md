@@ -136,6 +136,13 @@ If a project needs more media capability, do this in order:
 4. add a dedicated media manager if editorial reuse matters
 5. define public vs private media rules
 
+### Deferred ideas (kept for future)
+
+- add `alt` / `caption` / `credit` metadata as an opt-in layer
+- add a tiny dedicated media settings section in docs
+- make admin thumbnails explicitly use the `thumb` conversion
+- prepare an S3-ready media policy doc without enabling S3 by default
+
 ---
 
 ## Files to review first
