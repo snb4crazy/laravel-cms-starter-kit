@@ -5,18 +5,18 @@
 [![Deploy Staging](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml/badge.svg?branch=main)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml)
 [![Deploy Production](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-production.yml)
 
-Reusable CMS starter built on Laravel, with a **Filament-first admin** and an **Inertia-ready architecture** for projects that need a custom panel later.
+Production-minded Laravel CMS starter with a **Filament-first admin** and an **Inertia-ready architecture** for projects that later need a custom panel.
 
-## What this template gives you
+## What you get out of the box
 
 - Filament admin panel at `/admin`
 - ready CRUD examples (`Post`, `Category`)
-- dashboard widgets to showcase stats, trends, activity, and quick links
+- dashboard widgets for stats, trends, activity, and quick links
 - Media Library integration for post cover images
 - role/permission baseline (`admin`, `editor`)
-- docs-first setup with architecture decisions and rollout guides
+- docs-first setup with architecture notes and rollout guides
 
-## Quick start
+## Quick start (local)
 
 ```bash
 cp .env.example .env
@@ -33,7 +33,7 @@ Open:
 - App: `http://127.0.0.1:8000`
 - Admin: `http://127.0.0.1:8000/admin`
 
-Demo admin credentials (from seeder):
+Demo admin credentials (seeded):
 
 - Email: `admin@example.com`
 - Password: `password`
@@ -45,12 +45,12 @@ Demo admin credentials (from seeder):
 - config file: `config/admin.php`
 - switch helper script: `scripts/switch-admin-panel.sh`
 
-Use the detailed guide before switching:
+Read before switching:
 
 - `docs/admin-panel-switching.md`
 - `docs/dual-admin-architecture.md`
 
-## Documentation map
+## Documentation guide
 
 Start here:
 
@@ -72,7 +72,7 @@ Architecture and planning:
 - `docs/dual-admin-architecture.md` - Filament-first + Inertia-ready boundaries
 - `docs/decisions/0001-dual-admin-strategy.md` - ADR for admin strategy
 
-## Notes for template reuse
+## Reuse checklist
 
 - keep this repo as a clean baseline, then branch per project
 - keep domain logic outside panel code so either admin adapter can evolve
@@ -83,8 +83,8 @@ Architecture and planning:
 - **Current default**: Filament-first CMS stub is ready for local development and demos.
 - **CI/CD baseline**: CI, security, staging deploy, and production deploy workflows are present under `.github/workflows`.
 - **Architecture**: dual-admin policy is documented, with `ADMIN_PANEL` support for Filament/Inertia switching.
-- **Near-term roadmap**: expand feature tests around media and content workflows, and harden production auth/permissions.
-- **Maintenance note**: workflows are configured for the `main` branch; align your default branch naming when creating new repos.
+- **Near-term roadmap**: expand feature tests around media/content workflows and harden production auth/permissions.
+- **Maintenance note**: workflows target `main`; align your default branch naming in new repos.
 
 ## Create new project from this template
 
@@ -113,7 +113,7 @@ Recommended first project customization:
 1. Set `APP_NAME`, `APP_URL`, and database variables in `.env`.
 2. Decide admin mode with `ADMIN_PANEL=filament` or `ADMIN_PANEL=inertia`.
 3. Review docs in `docs/README.md` and complete `docs/database-setup.md`.
-4. Replace seeded credentials and rotate any local/testing defaults before sharing environments.
+4. Replace seeded credentials and rotate local/testing defaults before sharing environments.
 
 ## License
 
