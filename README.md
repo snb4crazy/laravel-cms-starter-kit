@@ -1,8 +1,8 @@
 # CMS Boilerplate (Laravel 10)
 
-[![CI](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/ci.yml)
-[![Security](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/security.yml)
-[![Deploy Staging](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml/badge.svg?branch=main)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml)
+[![CI](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/ci.yml)
+[![Security](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/security.yml/badge.svg?branch=master)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/security.yml)
+[![Deploy Staging](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml/badge.svg?branch=master)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-staging.yml)
 [![Deploy Production](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-production.yml/badge.svg)](https://github.com/snb4crazy/laravel-cms-starter-kit/actions/workflows/deploy-production.yml)
 
 Production-minded Laravel CMS starter with a **Filament-first admin** and an **Inertia-ready architecture** for projects that later need a custom panel.
@@ -84,7 +84,7 @@ Architecture and planning:
 - **CI/CD baseline**: CI, security, staging deploy, and production deploy workflows are present under `.github/workflows`.
 - **Architecture**: dual-admin policy is documented, with `ADMIN_PANEL` support for Filament/Inertia switching.
 - **Near-term roadmap**: expand feature tests around media/content workflows and harden production auth/permissions.
-- **Maintenance note**: workflows target `main`; align your default branch naming in new repos.
+- **Maintenance note**: workflows target `master`; align your default branch naming in new repos.
 
 ## Create new project from this template
 
