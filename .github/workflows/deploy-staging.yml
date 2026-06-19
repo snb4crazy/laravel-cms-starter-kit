@@ -2,7 +2,7 @@ name: Deploy Staging
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   workflow_dispatch:
 
 concurrency:
@@ -47,8 +47,8 @@ jobs:
 
             cd "${{ secrets.STAGING_PATH }}"
             git fetch --all --tags
-            git checkout main
-            git pull --ff-only origin main
+            git checkout master
+            git pull --ff-only origin master
 
             composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
             npm ci
