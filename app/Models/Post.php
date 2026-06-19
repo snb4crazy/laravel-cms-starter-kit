@@ -125,5 +125,3 @@ class Post extends Model implements HasMedia
         return $query->where('is_featured', true);
     }
 }
-
-

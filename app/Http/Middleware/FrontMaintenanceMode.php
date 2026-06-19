@@ -31,4 +31,3 @@ class FrontMaintenanceMode
         abort(503, 'The site is currently in maintenance mode.');
     }
 }
-

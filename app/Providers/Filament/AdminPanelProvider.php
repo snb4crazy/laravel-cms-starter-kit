@@ -2,9 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\SiteSettings;
 use App\Filament\Widgets\CategoryOverviewWidget;
 use App\Filament\Widgets\ContentHealthWidget;
-use App\Filament\Pages\SiteSettings;
 use App\Filament\Widgets\LatestPostsWidget;
 use App\Filament\Widgets\PostStatsWidget;
 use App\Filament\Widgets\PublishingTrendChartWidget;
@@ -56,7 +56,7 @@ class AdminPanelProvider extends PanelProvider
             // ------------------------------------------------------------------
             ->colors([
                 'primary' => Color::Blue,
-                'gray'    => Color::Slate,
+                'gray' => Color::Slate,
             ])
 
             // ------------------------------------------------------------------

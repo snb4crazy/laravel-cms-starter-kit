@@ -40,5 +40,3 @@ class CmsDemoSeeder extends Seeder
         Post::factory()->create(['status' => 'archived', 'published_at' => now()->subDays(10)]);
     }
 }
-
-

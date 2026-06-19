@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Models\Category;
 use App\Models\Post;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
@@ -60,10 +59,25 @@ class PostResource extends Resource
     protected static ?string $recordTitleAttribute = 'title';
 
     // Filament v5: use methods for icon/group to avoid BackedEnum|string|null type conflicts.
-    public static function getModel(): string                            { return Post::class; }
-    public static function getNavigationIcon(): string|\BackedEnum|null  { return 'heroicon-o-document-text'; }
-    public static function getNavigationGroup(): ?string                 { return 'Content'; }
-    public static function getNavigationSort(): ?int                     { return 1; }
+    public static function getModel(): string
+    {
+        return Post::class;
+    }
+
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-document-text';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
 
     // ---------------------------------------------------------------------------
     // Form schema (Filament v5: Schema replaces Form)
@@ -122,9 +136,9 @@ class PostResource extends Resource
 
                         Select::make('status')
                             ->options([
-                                'draft'     => 'Draft',
+                                'draft' => 'Draft',
                                 'published' => 'Published',
-                                'archived'  => 'Archived',
+                                'archived' => 'Archived',
                             ])
                             ->default('draft')
                             ->required(),
@@ -236,9 +250,9 @@ class PostResource extends Resource
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
-                        'draft'     => 'warning',
-                        'archived'  => 'danger',
-                        default     => 'gray',
+                        'draft' => 'warning',
+                        'archived' => 'danger',
+                        default => 'gray',
                     }),
 
                 IconColumn::make('is_featured')
@@ -267,9 +281,9 @@ class PostResource extends Resource
 
                 SelectFilter::make('status')
                     ->options([
-                        'draft'     => 'Draft',
+                        'draft' => 'Draft',
                         'published' => 'Published',
-                        'archived'  => 'Archived',
+                        'archived' => 'Archived',
                     ]),
 
                 SelectFilter::make('category')
@@ -300,7 +314,7 @@ class PostResource extends Resource
                     ->requiresConfirmation()
                     ->action(function (Post $record): void {
                         $record->update([
-                            'status'       => 'published',
+                            'status' => 'published',
                             'published_at' => $record->published_at ?? now(),
                         ]);
                         Notification::make()->title('Post published!')->success()->send();
@@ -336,10 +350,9 @@ class PostResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListPosts::route('/'),
+            'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
-            'edit'   => Pages\EditPost::route('/{record}/edit'),
+            'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 }
-

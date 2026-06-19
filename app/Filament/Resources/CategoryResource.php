@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 /**
  * Stub Filament Resource: Category
@@ -31,9 +32,20 @@ class CategoryResource extends Resource
     protected static ?string $model = Category::class;
 
     // Filament v5: use methods — typed properties conflict with BackedEnum|string|null parent types.
-    public static function getNavigationIcon(): string|\BackedEnum|null { return 'heroicon-o-tag'; }
-    public static function getNavigationGroup(): ?string                { return 'Content'; }
-    public static function getNavigationSort(): ?int                    { return 2; }
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-tag';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Content';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 2;
+    }
 
     // ---------------------------------------------------------------------------
     // Form schema (Filament v5: Schema replaces Form)
@@ -49,7 +61,7 @@ class CategoryResource extends Resource
                 ->live(onBlur: true)
                 ->afterStateUpdated(function (string $context, $state, callable $set): void {
                     if ($context === 'create') {
-                        $set('slug', \Illuminate\Support\Str::slug($state));
+                        $set('slug', Str::slug($state));
                     }
                 }),
 
@@ -114,9 +126,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListCategories::route('/'),
+            'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-            'edit'   => Pages\EditCategory::route('/{record}/edit'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 }

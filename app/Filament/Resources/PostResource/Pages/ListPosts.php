@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PostResource\Pages;
 
 use App\Filament\Resources\PostResource;
+use App\Models\Post;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
@@ -27,15 +28,14 @@ class ListPosts extends ListRecords
 
             'draft' => Tab::make('Drafts')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'draft'))
-                ->badge(fn () => \App\Models\Post::where('status', 'draft')->count()),
+                ->badge(fn () => Post::where('status', 'draft')->count()),
 
             'published' => Tab::make('Published')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'published'))
-                ->badge(fn () => \App\Models\Post::where('status', 'published')->count()),
+                ->badge(fn () => Post::where('status', 'published')->count()),
 
             'archived' => Tab::make('Archived')
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 'archived')),
         ];
     }
 }
-
