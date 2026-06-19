@@ -15,4 +15,3 @@ class CreatePost extends CreateRecord
         return $this->getResource()::getUrl('edit', ['record' => $this->getRecord()]);
     }
 }
-

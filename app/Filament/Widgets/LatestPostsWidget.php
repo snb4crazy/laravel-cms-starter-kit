@@ -4,7 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Filament\Resources\PostResource;
 use App\Models\Post;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -19,7 +18,7 @@ class LatestPostsWidget extends BaseWidget
 {
     protected static ?int $sort = 7;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -41,9 +40,9 @@ class LatestPostsWidget extends BaseWidget
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
-                        'draft'     => 'warning',
-                        'archived'  => 'danger',
-                        default     => 'gray',
+                        'draft' => 'warning',
+                        'archived' => 'danger',
+                        default => 'gray',
                     }),
 
                 TextColumn::make('updated_at')
@@ -53,4 +52,3 @@ class LatestPostsWidget extends BaseWidget
             ->paginated(false);
     }
 }
-

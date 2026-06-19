@@ -49,4 +49,3 @@ return [
     'prefix' => env('MEDIA_PREFIX', ''),
     'force_lazy_loading' => env('FORCE_MEDIA_LIBRARY_LAZY_LOADING', true),
 ];
-

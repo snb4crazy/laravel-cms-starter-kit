@@ -43,4 +43,3 @@ class ContentHealthWidget extends BaseWidget
         ];
     }
 }
-

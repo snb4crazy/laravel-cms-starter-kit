@@ -26,4 +26,3 @@ if ($defaultPanel === 'inertia' && config('admin.panels.inertia.enabled', true))
         require $inertiaRoutes;
     }
 }
-

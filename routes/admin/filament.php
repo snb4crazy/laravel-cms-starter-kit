@@ -8,4 +8,3 @@ Route::prefix(config('admin.panels.filament.path', 'admin'))
     ->group(function (): void {
         // Intentionally left empty in the boilerplate scaffold.
     });
-

@@ -107,7 +107,7 @@ class PostResourceTest extends TestCase
     public function test_list_page_does_not_show_records_from_other_datasets(): void
     {
         $visible = Post::factory()->count(2)->create();
-        $hidden  = Post::factory()->count(2)->create();
+        $hidden = Post::factory()->count(2)->create();
 
         // Only the visible posts are shown; hidden ones would only disappear
         // if a filter were applied – here we verify all 4 are present by default.
@@ -163,7 +163,7 @@ class PostResourceTest extends TestCase
 
     public function test_status_filter_shows_only_matching_posts(): void
     {
-        $drafts    = Post::factory()->count(2)->create(['status' => 'draft']);
+        $drafts = Post::factory()->count(2)->create(['status' => 'draft']);
         $published = Post::factory()->count(3)->create(['status' => 'published']);
 
         Livewire::actingAs($this->adminUser())
@@ -175,7 +175,7 @@ class PostResourceTest extends TestCase
 
     public function test_status_filter_shows_only_published_posts(): void
     {
-        $drafts    = Post::factory()->count(2)->create(['status' => 'draft']);
+        $drafts = Post::factory()->count(2)->create(['status' => 'draft']);
         $published = Post::factory()->count(2)->create(['status' => 'published']);
 
         Livewire::actingAs($this->adminUser())
@@ -190,7 +190,7 @@ class PostResourceTest extends TestCase
         $cat1 = Category::factory()->create();
         $cat2 = Category::factory()->create();
 
-        $inCat  = Post::factory()->count(2)->create(['category_id' => $cat1->id]);
+        $inCat = Post::factory()->count(2)->create(['category_id' => $cat1->id]);
         $outCat = Post::factory()->count(2)->create(['category_id' => $cat2->id]);
 
         Livewire::actingAs($this->adminUser())
@@ -202,7 +202,7 @@ class PostResourceTest extends TestCase
 
     public function test_is_featured_toggle_filter_shows_only_featured_posts(): void
     {
-        $featured    = Post::factory()->count(2)->create(['is_featured' => true]);
+        $featured = Post::factory()->count(2)->create(['is_featured' => true]);
         $notFeatured = Post::factory()->count(2)->create(['is_featured' => false]);
 
         Livewire::actingAs($this->adminUser())
@@ -214,7 +214,7 @@ class PostResourceTest extends TestCase
 
     public function test_published_today_filter_shows_only_todays_posts(): void
     {
-        $today     = Post::factory()->create(['published_at' => now()]);
+        $today = Post::factory()->create(['published_at' => now()]);
         $yesterday = Post::factory()->create(['published_at' => now()->subDay()]);
 
         Livewire::actingAs($this->adminUser())
@@ -249,7 +249,7 @@ class PostResourceTest extends TestCase
     public function test_publish_action_sets_status_to_published(): void
     {
         $draft = Post::factory()->create([
-            'status'       => 'draft',
+            'status' => 'draft',
             'published_at' => null,
         ]);
 
@@ -258,7 +258,7 @@ class PostResourceTest extends TestCase
             ->callTableAction('publish', $draft);
 
         $this->assertDatabaseHas('posts', [
-            'id'     => $draft->id,
+            'id' => $draft->id,
             'status' => 'published',
         ]);
     }
@@ -266,8 +266,8 @@ class PostResourceTest extends TestCase
     public function test_publish_action_preserves_existing_published_at_date(): void
     {
         $publishedAt = now()->subWeek();
-        $draft       = Post::factory()->create([
-            'status'       => 'draft',
+        $draft = Post::factory()->create([
+            'status' => 'draft',
             'published_at' => $publishedAt,
         ]);
 
@@ -276,7 +276,7 @@ class PostResourceTest extends TestCase
             ->callTableAction('publish', $draft);
 
         $this->assertDatabaseHas('posts', [
-            'id'     => $draft->id,
+            'id' => $draft->id,
             'status' => 'published',
         ]);
 
@@ -306,8 +306,8 @@ class PostResourceTest extends TestCase
 
     public function test_bulk_delete_action_removes_selected_posts(): void
     {
-        $posts   = Post::factory()->count(3)->create();
-        $kept    = Post::factory()->count(2)->create();
+        $posts = Post::factory()->count(3)->create();
+        $kept = Post::factory()->count(2)->create();
 
         Livewire::actingAs($this->adminUser())
             ->test(ListPosts::class)
@@ -341,8 +341,7 @@ class PostResourceTest extends TestCase
 
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
-            ->assertFormFieldExists('cover', fn ($field): bool =>
-                $field instanceof SpatieMediaLibraryFileUpload
+            ->assertFormFieldExists('cover', fn ($field): bool => $field instanceof SpatieMediaLibraryFileUpload
                 && $field->getCollection() === 'cover'
                 && $field->getDiskName() === 's3'
             );
@@ -364,8 +363,7 @@ class PostResourceTest extends TestCase
 
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
-            ->assertFormFieldExists('gallery', fn ($field): bool =>
-                $field instanceof SpatieMediaLibraryFileUpload
+            ->assertFormFieldExists('gallery', fn ($field): bool => $field instanceof SpatieMediaLibraryFileUpload
                 && $field->getCollection() === 'gallery'
                 && $field->isMultiple()
                 && $field->getDiskName() === 'public'
@@ -379,20 +377,20 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
             ->fillForm([
-                'title'       => 'My First Post',
-                'slug'        => 'my-first-post',
-                'status'      => 'draft',
+                'title' => 'My First Post',
+                'slug' => 'my-first-post',
+                'status' => 'draft',
                 'category_id' => $category->id,
-                'excerpt'     => 'A short excerpt.',
-                'content'     => 'Full post content goes here.',
+                'excerpt' => 'A short excerpt.',
+                'content' => 'Full post content goes here.',
                 'is_featured' => false,
             ])
             ->call('create')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('posts', [
-            'title'  => 'My First Post',
-            'slug'   => 'my-first-post',
+            'title' => 'My First Post',
+            'slug' => 'my-first-post',
             'status' => 'draft',
         ]);
     }
@@ -402,8 +400,8 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
             ->fillForm([
-                'title'  => '',
-                'slug'   => 'no-title',
+                'title' => '',
+                'slug' => 'no-title',
                 'status' => 'draft',
             ])
             ->call('create')
@@ -415,8 +413,8 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
             ->fillForm([
-                'title'  => 'Valid Title',
-                'slug'   => '',
+                'title' => 'Valid Title',
+                'slug' => '',
                 'status' => 'draft',
             ])
             ->call('create')
@@ -430,8 +428,8 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
             ->fillForm([
-                'title'  => 'Another Post',
-                'slug'   => 'existing-slug',
+                'title' => 'Another Post',
+                'slug' => 'existing-slug',
                 'status' => 'draft',
             ])
             ->call('create')
@@ -443,8 +441,8 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(CreatePost::class)
             ->fillForm([
-                'title'  => 'Valid Title',
-                'slug'   => 'valid-title',
+                'title' => 'Valid Title',
+                'slug' => 'valid-title',
                 'status' => null,
             ])
             ->call('create')
@@ -458,16 +456,16 @@ class PostResourceTest extends TestCase
     public function test_edit_form_is_pre_filled_with_existing_data(): void
     {
         $post = Post::factory()->create([
-            'title'   => 'Original Title',
-            'status'  => 'draft',
+            'title' => 'Original Title',
+            'status' => 'draft',
             'excerpt' => 'Original excerpt.',
         ]);
 
         Livewire::actingAs($this->adminUser())
             ->test(EditPost::class, ['record' => $post->getRouteKey()])
             ->assertFormSet([
-                'title'   => 'Original Title',
-                'status'  => 'draft',
+                'title' => 'Original Title',
+                'status' => 'draft',
                 'excerpt' => 'Original excerpt.',
             ]);
     }
@@ -479,15 +477,15 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(EditPost::class, ['record' => $post->getRouteKey()])
             ->fillForm([
-                'title'  => 'Updated Title',
+                'title' => 'Updated Title',
                 'status' => 'published',
             ])
             ->call('save')
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('posts', [
-            'id'     => $post->id,
-            'title'  => 'Updated Title',
+            'id' => $post->id,
+            'title' => 'Updated Title',
             'status' => 'published',
         ]);
     }
@@ -535,13 +533,11 @@ class PostResourceTest extends TestCase
         Livewire::actingAs($this->adminUser())
             ->test(EditPost::class, ['record' => $post->getRouteKey()])
             ->fillForm([
-                'title'  => 'Any Title',
-                'slug'   => 'my-unique-slug',
+                'title' => 'Any Title',
+                'slug' => 'my-unique-slug',
                 'status' => 'draft',
             ])
             ->call('save')
             ->assertHasNoFormErrors(['slug']);
     }
 }
-
-

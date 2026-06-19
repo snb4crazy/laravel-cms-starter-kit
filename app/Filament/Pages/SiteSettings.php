@@ -35,12 +35,21 @@ class SiteSettings extends Page implements HasForms
     private const CACHE_KEY = 'cms.settings';
 
     protected static ?string $navigationLabel = 'Site Settings';
-    protected static ?string $title           = 'Site Settings';
-    protected static ?int    $navigationSort  = 10;
+
+    protected static ?string $title = 'Site Settings';
+
+    protected static ?int $navigationSort = 10;
 
     // Filament v5: use methods instead of typed properties.
-    public static function getNavigationIcon(): string|\BackedEnum|null { return 'heroicon-o-cog-6-tooth'; }
-    public static function getNavigationGroup(): ?string                { return 'System'; }
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-cog-6-tooth';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'System';
+    }
 
     protected string $view = 'filament.pages.site-settings';
 
@@ -51,8 +60,8 @@ class SiteSettings extends Page implements HasForms
         $settings = Cache::get(self::CACHE_KEY, []);
 
         $this->form->fill([
-            'site_name'        => $settings['site_name'] ?? config('app.name'),
-            'site_tagline'     => $settings['site_tagline'] ?? '',
+            'site_name' => $settings['site_name'] ?? config('app.name'),
+            'site_tagline' => $settings['site_tagline'] ?? '',
             'maintenance_mode' => (bool) ($settings['maintenance_mode'] ?? false),
         ]);
     }
@@ -98,5 +107,3 @@ class SiteSettings extends Page implements HasForms
             ->send();
     }
 }
-
-

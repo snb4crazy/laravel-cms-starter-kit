@@ -11,7 +11,7 @@ class RecentActivityWidget extends BaseWidget
 {
     protected static ?int $sort = 5;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     public function table(Table $table): Table
     {
@@ -42,4 +42,3 @@ class RecentActivityWidget extends BaseWidget
             ->paginated(false);
     }
 }
-

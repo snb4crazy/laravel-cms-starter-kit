@@ -8,4 +8,3 @@ Route::prefix(config('admin.panels.inertia.path', 'dashboard'))
     ->group(function (): void {
         // Intentionally left empty in the boilerplate scaffold.
     });
-

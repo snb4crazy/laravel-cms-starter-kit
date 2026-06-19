@@ -67,7 +67,7 @@ class PostModelTest extends TestCase
     public function test_post_belongs_to_a_category(): void
     {
         $category = Category::factory()->create();
-        $post     = Post::factory()->create(['category_id' => $category->id]);
+        $post = Post::factory()->create(['category_id' => $category->id]);
 
         $this->assertInstanceOf(Category::class, $post->category);
         $this->assertEquals($category->id, $post->category->id);
@@ -216,4 +216,3 @@ class PostModelTest extends TestCase
         $this->assertTrue($results->first()->is_featured);
     }
 }
-

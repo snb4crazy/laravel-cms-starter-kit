@@ -14,7 +14,7 @@ class QuickLinksWidget extends Widget
 {
     protected static ?int $sort = 6;
 
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
 
     protected string $view = 'filament.widgets.quick-links-widget';
 
@@ -56,4 +56,3 @@ class QuickLinksWidget extends Widget
         ];
     }
 }
-

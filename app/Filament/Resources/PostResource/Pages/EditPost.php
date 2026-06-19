@@ -22,4 +22,3 @@ class EditPost extends EditRecord
         return 'Post saved successfully';
     }
 }
-
